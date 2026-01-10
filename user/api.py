@@ -1,6 +1,8 @@
 from django.contrib import auth
 
 from ninja import Router, Schema
+from ninja.security import django_auth
+
 from .models import User
 
 router = Router()
@@ -48,3 +50,8 @@ def test(request):
         return {"message": f"Hello, {request.user.username}"}
     else:
         return {"message": "Not logged in."}
+
+
+@router.get("/test_auth", auth=django_auth)
+def test_auth(request):
+    return {"message": f"Hello, {request.user.username}"}
