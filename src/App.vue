@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import request from "@/utils/request";
 
 const user_information = reactive(
@@ -21,8 +21,7 @@ function login() {
 }
 
 function logout() {
-  request.post(`/user/logout`, {}).then(data => {
-  })
+  request.post(`/user/logout`, {})
 }
 
 function test() {
@@ -50,7 +49,7 @@ onMounted(() => {
 <template>
   <input type="text" v-model="user_information.phone"/>
   <input type="text" v-model="user_information.password"/>
-  <button @click="login">Login</button>
+  <button class="btn" @click="login">Login</button>
   <button @click="logout">Logout</button>
   <span>{{ _test_auth }}</span>
   <button @click="test_auth">Test Auth</button>
