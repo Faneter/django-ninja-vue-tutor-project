@@ -1,47 +1,58 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import {computed, onMounted, reactive, ref} from 'vue'
+import request from "@/utils/request";
+
+const user_information = reactive(
+    {
+      phone: '',
+      password: '',
+    }
+)
+
+const _test_auth = ref('')
+
+function login() {
+  request.post(`/user/login`, {
+    phone: user_information.phone,
+    password: user_information.password,
+  }).then(data => {
+    console.log(data)
+  })
+}
+
+function logout() {
+  request.post(`/user/logout`, {}).then(data => {
+  })
+}
+
+function test() {
+  request.get('/user/test').then(data => {
+    console.log(data)
+  })
+}
+
+function test_auth() {
+  request.get('/user/test_auth').then(data => {
+    test_auth.value = data
+  }).catch(function (error) {
+    test_auth.value = error
+  });
+}
+
+onMounted(() => {
+  request.get(`/hello`).then(data => {
+    console.log(data)
+  })
+})
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <input type="text" v-model="user_information.phone"/>
+  <input type="text" v-model="user_information.password"/>
+  <button @click="login">Login</button>
+  <button @click="logout">Logout</button>
+  <span>{{ _test_auth }}</span>
+  <button @click="test_auth">Test Auth</button>
+  <button @click="test">Test</button>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
