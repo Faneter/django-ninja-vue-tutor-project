@@ -1,4 +1,6 @@
 <script setup>
+import NavBar from "@/components/NavBar.vue";
+
 import {onMounted, reactive, ref} from 'vue'
 import request from "@/utils/request";
 
@@ -8,6 +10,8 @@ const user_information = reactive(
       password: '',
     }
 )
+
+const isLoggedIn = ref(false)
 
 const _test_auth = ref('')
 
@@ -47,11 +51,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <input type="text" v-model="user_information.phone"/>
-  <input type="text" v-model="user_information.password"/>
-  <button class="btn" @click="login">Login</button>
-  <button @click="logout">Logout</button>
-  <span>{{ _test_auth }}</span>
-  <button @click="test_auth">Test Auth</button>
-  <button @click="test">Test</button>
+  <NavBar :isLoggedIn="isLoggedIn"/>
+  <button class="btn" @click="isLoggedIn=!isLoggedIn">Change</button>
 </template>
