@@ -1,4 +1,6 @@
 <script setup>
+import LoginModal from "@/components/LoginModal.vue";
+
 const props = defineProps(['isLoggedIn'])
 </script>
 
@@ -49,12 +51,13 @@ const props = defineProps(['isLoggedIn'])
       &nbsp;&nbsp;
     </div>
     <div v-else class="navbar-end">
-      <button class="btn">登录</button>
+      <button class="btn" onclick="login_modal.showModal()">登录</button>
       &nbsp;&nbsp;
       <button class="btn">注册</button>
       &nbsp;&nbsp;
     </div>
   </div>
+  <LoginModal id="login_modal"/>
 </template>
 
 <style scoped>
