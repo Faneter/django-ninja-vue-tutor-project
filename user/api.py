@@ -34,14 +34,22 @@ def login(request, data: LoginSchema):
     user = auth.authenticate(phone=data.phone, password=data.password)
     if user is not None:
         auth.login(request, user)
-        return {"message": "Login successful"}
+        return {"status": "success"}
     else:
-        return {"message": "Login failed."}
+        return {"status": "failed", "error_message": "账号或密码错误。"}
 
 
 @router.post("/logout")
 def logout(request):
     auth.logout(request)
+
+
+@router.post("/is_logged_in")
+def is_logged_in(request):
+    if request.user.is_authenticated:
+        return {"status": "true"}
+    else:
+        return {"status": "false"}
 
 
 @router.get("/test")

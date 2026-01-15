@@ -1,15 +1,23 @@
 <script setup>
 import LoginModal from "@/components/LoginModal.vue";
+import request from "@/utils/request.js";
 
 const props = defineProps(['isLoggedIn'])
+
+function logout() {
+  request.post(`/user/logout`, {}).finally(() => {
+    location.reload()
+  })
+}
 </script>
 
 <template>
+  <LoginModal/>
   <div class="navbar bg-base-100 mb-40 shadow-sm">
     <div class="navbar-start">
       <button class="btn btn-ghost text-xl">daisyUI</button>
     </div>
-    <div v-if="isLoggedIn" class="navbar-end">
+    <div v-if="isLoggedIn === true" class="navbar-end">
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
           <div class="indicator">
@@ -32,8 +40,9 @@ const props = defineProps(['isLoggedIn'])
       &nbsp;&nbsp;
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-          <div class="w-10 rounded-full"><img alt="Tailwind CSS Navbar component"
-                                              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+          <div class="w-10 rounded-full">
+            <img alt="Tailwind CSS Navbar component"
+                 src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
           </div>
         </div>
         <ul tabindex="0" class="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
@@ -44,7 +53,7 @@ const props = defineProps(['isLoggedIn'])
             <button>设置</button>
           </li>
           <li>
-            <button>登出</button>
+            <button @click="logout">登出</button>
           </li>
         </ul>
       </div>
@@ -57,7 +66,6 @@ const props = defineProps(['isLoggedIn'])
       &nbsp;&nbsp;
     </div>
   </div>
-  <LoginModal id="login_modal"/>
 </template>
 
 <style scoped>
