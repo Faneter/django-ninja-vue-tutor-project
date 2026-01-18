@@ -217,13 +217,9 @@ function register() {
                   type="password"
                   required
                   placeholder="再次输入密码"
-                  minlength="8"
                   :disabled="isLoading"
               />
             </label>
-            <p class="validator-hint hidden">
-              两次输入的密码不一致
-            </p>
           </fieldset>
         </div>
 
