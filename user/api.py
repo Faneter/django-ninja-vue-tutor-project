@@ -1,7 +1,7 @@
 from django.contrib import auth
+from django.db import IntegrityError
 
 from ninja import Router, Schema
-from ninja.security import django_auth
 
 from .models import User
 
@@ -21,7 +21,11 @@ def register(request, data: RegisterSchema):
         username=data.username,
     )
     user.set_password(data.password)
-    user.save()
+    try:
+        user.save()
+        return {"status": "success"}
+    except IntegrityError:
+        return {"status": "failed", "message": "账号已存在"}
 
 
 class LoginSchema(Schema):
@@ -50,16 +54,3 @@ def is_logged_in(request):
         return {"status": "true"}
     else:
         return {"status": "false"}
-
-
-@router.get("/test")
-def test(request):
-    if request.user.is_authenticated:
-        return {"message": f"Hello, {request.user.username}"}
-    else:
-        return {"message": "Not logged in."}
-
-
-@router.get("/test_auth", auth=django_auth)
-def test_auth(request):
-    return {"message": f"Hello, {request.user.username}"}

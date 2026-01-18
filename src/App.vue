@@ -14,5 +14,4 @@ request.post(`/user/is_logged_in`, {}).then(response => {
 
 <template>
   <NavBar :isLoggedIn="isLoggedIn"/>
-  <button class="btn" @click="isLoggedIn=!isLoggedIn">Change</button>
 </template>
