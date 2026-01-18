@@ -1,5 +1,6 @@
 <script setup>
 import LoginModal from "@/components/LoginModal.vue";
+import RegisterModal from "@/components/RegisterModal.vue";
 import request from "@/utils/request.js";
 
 const props = defineProps(['isLoggedIn'])
@@ -13,6 +14,7 @@ function logout() {
 
 <template>
   <LoginModal/>
+  <RegisterModal/>
   <div class="navbar bg-base-100 mb-40 shadow-sm">
     <div class="navbar-start">
       <button class="btn btn-ghost text-xl">daisyUI</button>
@@ -62,7 +64,7 @@ function logout() {
     <div v-else class="navbar-end">
       <button class="btn" onclick="login_modal.showModal()">登录</button>
       &nbsp;&nbsp;
-      <button class="btn">注册</button>
+      <button class="btn" onclick="register_modal.showModal()">注册</button>
       &nbsp;&nbsp;
     </div>
   </div>

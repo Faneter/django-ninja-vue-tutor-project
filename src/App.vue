@@ -7,7 +7,7 @@ import request from "@/utils/request";
 const isLoggedIn = ref(false)
 
 request.post(`/user/is_logged_in`, {}).then(response => {
-  isLoggedIn.value = !!response.status;
+  isLoggedIn.value = JSON.parse(response.status);
 })
 
 </script>
