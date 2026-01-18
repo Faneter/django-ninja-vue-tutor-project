@@ -28,11 +28,8 @@ function login() {
     phone: login_information.phone,
     password: login_information.password,
   }).then(response => {
-    console.log(response)
     if (response.status === "success") {
       successMessage.value = "登录成功！"
-
-      // 1秒后自动关闭成功提示，并重新加载页面
       location.reload(true)
     } else {
       errorMessage.value = response.error_message || "登录失败，请重试"

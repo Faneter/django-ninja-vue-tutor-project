@@ -25,7 +25,7 @@ def register(request, data: RegisterSchema):
         user.save()
         return {"status": "success"}
     except IntegrityError:
-        return {"status": "failed", "message": "账号已存在"}
+        return {"status": "failed", "message": "账号已存在。"}
 
 
 class LoginSchema(Schema):
