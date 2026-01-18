@@ -16,7 +16,7 @@ function login() {
   errorMessage.value = ''
   successMessage.value = ''
 
-  // 简单的前端验证
+  // 前端验证
   if (!login_information.phone.match(/^1[3-9]\d{9}$/)) {
     errorMessage.value = '请输入有效的手机号码'
     return
@@ -27,25 +27,22 @@ function login() {
   request.post(`/user/login`, {
     phone: login_information.phone,
     password: login_information.password,
-  })
-      .then(response => {
-        console.log(response)
-        if (response.status === "success") {
-          successMessage.value = "登录成功！"
+  }).then(response => {
+    console.log(response)
+    if (response.status === "success") {
+      successMessage.value = "登录成功！"
 
-          // 1秒后自动关闭成功提示，并重新加载页面
-          location.reload(true)
-        } else {
-          errorMessage.value = response.error_message || "登录失败，请重试"
-        }
-      })
-      .catch(error => {
-        console.error("Login error:", error)
-        errorMessage.value = "网络错误，请检查连接后重试"
-      })
-      .finally(() => {
-        isLoading.value = false
-      })
+      // 1秒后自动关闭成功提示，并重新加载页面
+      location.reload(true)
+    } else {
+      errorMessage.value = response.error_message || "登录失败，请重试"
+    }
+  }).catch(error => {
+    console.error("Login error:", error)
+    errorMessage.value = "网络错误，请检查连接后重试"
+  }).finally(() => {
+    isLoading.value = false
+  })
 }
 </script>
 
@@ -163,8 +160,6 @@ function login() {
         <!-- 额外链接 -->
         <div class="text-center space-x-4 text-sm">
           <a href="#" class="link link-primary">忘记密码？</a>
-          <span class="text-gray-400">|</span>
-          <a href="#" class="link link-primary">注册新账号</a>
         </div>
       </div>
     </div>
