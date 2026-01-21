@@ -70,19 +70,19 @@ def verify_parent(request, data: ParentVerificationSchema):
             id_card=data.id_card,
             status=VerificationStatus.WAITING
         )
-        return {"status": "true", "message": "已提交审核。"}
+        return {"status": "success", "message": "已提交审核。"}
     else:
         if verification.status == VerificationStatus.WAITING:
-            return {"status": "false", "message": "认证已提交审核，请不要重复提交。"}
+            return {"status": "failed", "error_message": "认证已提交审核，请不要重复提交。"}
         elif verification.status == VerificationStatus.PASSED:
-            return {"status": "false", "message": "此账号已认证，请不要重复提交。"}
+            return {"status": "failed", "error_message": "此账号已认证，请不要重复提交。"}
         elif verification.status == VerificationStatus.FAILED:
             verification.id_card = data.id_card
             verification.status = VerificationStatus.WAITING
             verification.save()
-            return {"status": "true", "message": "已提交审核。"}
+            return {"status": "success", "message": "已提交审核。"}
         else:
-            return {"status": "false", "message": "未知错误。"}
+            return {"status": "false", "error_message": "未知错误。"}
 
 
 class UserInformationSchema(Schema):

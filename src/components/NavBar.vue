@@ -2,6 +2,7 @@
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
 import request from "@/utils/request.js";
+import VerificationModal from "@/components/user/VerificationModal.vue";
 
 const props = defineProps(['isLoggedIn'])
 
@@ -15,6 +16,7 @@ function logout() {
 <template>
   <LoginModal/>
   <RegisterModal/>
+  <VerificationModal/>
   <div class="navbar bg-base-100 mb-40 shadow-sm">
     <div class="navbar-start">
       <button class="btn btn-ghost text-xl">daisyUI</button>
@@ -49,7 +51,7 @@ function logout() {
         </div>
         <ul tabindex="0" class="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
           <li>
-            <button class="justify-between">个人资料 <span class="badge">新</span></button>
+            <button class="justify-between" onclick="verification_modal.showModal()">身份认证 <span class="badge">新</span></button>
           </li>
           <li>
             <button>设置</button>
