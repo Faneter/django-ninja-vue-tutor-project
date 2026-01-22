@@ -29,8 +29,8 @@ function parent_verification() {
     if (response.status === "success") {
       successMessage.value = "已提交认证！"
       setTimeout(() => {
-        // 自动关闭模态框
-        document.getElementById('verification_modal')?.close();
+        // 重载页面刷新状态
+        location.reload(true)
       }, 1500);
     } else {
       errorMessage.value = response.error_message || "认证失败，请重试"

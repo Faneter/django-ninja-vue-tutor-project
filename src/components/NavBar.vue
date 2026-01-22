@@ -3,6 +3,7 @@ import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
 import request from "@/utils/request.js";
 import VerificationModal from "@/components/user/VerificationModal.vue";
+import NavBarVerificationButton from "@/components/user/NavBarVerificationButton.vue";
 
 const props = defineProps(['isLoggedIn'])
 
@@ -51,7 +52,7 @@ function logout() {
         </div>
         <ul tabindex="0" class="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
           <li>
-            <button class="justify-between" onclick="verification_modal.showModal()">身份认证 <span class="badge">新</span></button>
+            <NavBarVerificationButton></NavBarVerificationButton>
           </li>
           <li>
             <button>设置</button>

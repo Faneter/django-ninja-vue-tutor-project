@@ -3,7 +3,7 @@ from django.db import IntegrityError
 
 from ninja import Router, Schema
 
-from .models import User, ParentVerification, VerificationStatus
+from .models import User, ParentVerification, VerificationStatus, UserType
 
 router = Router()
 
@@ -85,12 +85,45 @@ def verify_parent(request, data: ParentVerificationSchema):
             return {"status": "false", "error_message": "未知错误。"}
 
 
+class UserVerificationStatusSchema(Schema):
+    status: str
+    """
+    具体的验证状态值
+     - "NONE": 未认证
+     - "WAITING": "已提交但尚未审核"
+     - "FAILED": "提交了但审核失败了"
+     - "PARENT": "认证为了家长"
+     - "TUTOR": "认证为了学生"
+    """
+
+
+@router.get("/verify/status", response=UserVerificationStatusSchema)
+def get_user_verification_status(request):
+    user = request.user
+    if user.type == UserType.PARENT:
+        return {"status": "PARENT"}
+    elif user.type == UserType.TUTOR:
+        return {"status": "TUTOR"}
+    else:
+        # TODO 在家教验证代码编写后，添加相应处理代码
+        parent = getattr(user, 'parent', None)
+        if not parent:
+            return {"status": "NONE"}
+        else:
+            if parent.status == VerificationStatus.WAITING:
+                return {"status": "WAITING"}
+            elif parent.status == VerificationStatus.FAILED:
+                return {"status": "FAILED"}
+            else:
+                return {"status": "FAILED"}
+
+
 class UserInformationSchema(Schema):
     phone: str
     username: str
     type: str
 
 
-@router.get("/user/information", response=UserInformationSchema)
+@router.get("/information", response=UserInformationSchema)
 def get_user_information(request):
     return request.user

@@ -24,7 +24,8 @@ class User(AbstractUser):
 
     @property
     def type(self):
-        if self.parent.status == VerificationStatus.PASSED:
+        parent = getattr(self, 'parent', None)
+        if parent and self.parent.status == VerificationStatus.PASSED:
             return UserType.PARENT
         else:
             return UserType.UNKNOWN
