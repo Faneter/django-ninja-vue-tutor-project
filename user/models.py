@@ -25,8 +25,11 @@ class User(AbstractUser):
     @property
     def type(self):
         parent = getattr(self, 'parent', None)
+        tutor = getattr(self, 'tutor', None)
         if parent and self.parent.status == VerificationStatus.PASSED:
             return UserType.PARENT
+        elif tutor and self.tutor.status == VerificationStatus.PASSED:
+            return UserType.TUTOR
         else:
             return UserType.UNKNOWN
 
@@ -42,4 +45,15 @@ class VerificationStatus(models.TextChoices):
 class ParentVerification(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="parent")
     id_card = models.CharField("身份证", max_length=18, default="")
+    status = models.CharField("审核状态", max_length=1, choices=VerificationStatus, default=VerificationStatus.WAITING)
+
+
+class TutorVerification(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="tutor")
+    id_card = models.CharField("身份证", max_length=18, default="")
+    student_card = models.ImageField("学生证", upload_to="verify/tutor/student_card/")
+    college_entrance_score = models.IntegerField("高考成绩", default=0)
+    teacher_qualification_certificate = models.ImageField("教师资格证",
+                                                          upload_to="verify/tutor/teacher_qualification_certificate/",
+                                                          null=True, blank=True)
     status = models.CharField("审核状态", max_length=1, choices=VerificationStatus, default=VerificationStatus.WAITING)

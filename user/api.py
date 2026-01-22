@@ -1,9 +1,10 @@
 from django.contrib import auth
 from django.db import IntegrityError
 
-from ninja import Router, Schema
+from ninja import Router, Schema, File, Form
+from ninja.files import UploadedFile
 
-from .models import User, ParentVerification, VerificationStatus, UserType
+from .models import User, ParentVerification, VerificationStatus, UserType, TutorVerification
 
 router = Router()
 
@@ -85,6 +86,44 @@ def verify_parent(request, data: ParentVerificationSchema):
             return {"status": "false", "error_message": "未知错误。"}
 
 
+class TutorVerificationSchema(Schema):
+    id_card: str
+    college_entrance_score: int
+
+
+@router.post("/verify/tutor")
+def verify_tutor(
+        request,
+        data: TutorVerificationSchema = Form(...),
+        student_card: UploadedFile = File(...),
+        teacher_qualification_certificate: UploadedFile = File(None)
+):
+    user = request.user
+    verification = TutorVerification.objects.filter(user=user).first()
+    if verification is None:
+        TutorVerification.objects.create(
+            user=user,
+            id_card=data.id_card,
+            student_card=student_card,
+            college_entrance_score=data.college_entrance_score,
+            teacher_qualification_certificate=teacher_qualification_certificate,
+            status=VerificationStatus.WAITING
+        )
+        return {"status": "success", "message": "已提交审核。"}
+    else:
+        if verification.status == VerificationStatus.WAITING:
+            return {"status": "failed", "error_message": "认证已提交审核，请不要重复提交。"}
+        elif verification.status == VerificationStatus.PASSED:
+            return {"status": "failed", "error_message": "此账号已认证，请不要重复提交。"}
+        elif verification.status == VerificationStatus.FAILED:
+            verification.id_card = data.id_card
+            verification.status = VerificationStatus.WAITING
+            verification.save()
+            return {"status": "success", "message": "已提交审核。"}
+        else:
+            return {"status": "false", "error_message": "未知错误。"}
+
+
 class UserVerificationStatusSchema(Schema):
     status: str
     """
@@ -105,17 +144,31 @@ def get_user_verification_status(request):
     elif user.type == UserType.TUTOR:
         return {"status": "TUTOR"}
     else:
-        # TODO 在家教验证代码编写后，添加相应处理代码
         parent = getattr(user, 'parent', None)
-        if not parent:
-            return {"status": "NONE"}
-        else:
+        tutor = getattr(user, 'tutor', None)
+        if parent and tutor:
+            if parent.status == VerificationStatus.WAITING or tutor.status == VerificationStatus.WAITING:
+                return {"status": "WAITING"}
+            elif parent.status == VerificationStatus.FAILED and tutor.status == VerificationStatus.FAILED:
+                return {"status": "FAILED"}
+            else:
+                return {"status": "FAILED"}
+        elif parent:
             if parent.status == VerificationStatus.WAITING:
                 return {"status": "WAITING"}
             elif parent.status == VerificationStatus.FAILED:
                 return {"status": "FAILED"}
             else:
                 return {"status": "FAILED"}
+        elif tutor:
+            if tutor.status == VerificationStatus.WAITING:
+                return {"status": "WAITING"}
+            elif tutor.status == VerificationStatus.FAILED:
+                return {"status": "FAILED"}
+            else:
+                return {"status": "FAILED"}
+        else:
+            return {"status": "FAILED"}
 
 
 class UserInformationSchema(Schema):
