@@ -15,9 +15,6 @@ const tutor_verification_information = reactive({
   teacher_qualification_certificate: null,
 })
 
-// 当前选中的标签页
-const activeTab = ref('parent')
-
 const errorMessage = ref('')
 const successMessage = ref('')
 const isLoading = ref(false)
