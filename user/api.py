@@ -117,6 +117,9 @@ def verify_tutor(
             return {"status": "failed", "error_message": "此账号已认证，请不要重复提交。"}
         elif verification.status == VerificationStatus.FAILED:
             verification.id_card = data.id_card
+            verification.student_card = student_card
+            verification.college_entrance_score = data.college_entrance_score
+            verification.teacher_qualification_certificate = teacher_qualification_certificate
             verification.status = VerificationStatus.WAITING
             verification.save()
             return {"status": "success", "message": "已提交审核。"}

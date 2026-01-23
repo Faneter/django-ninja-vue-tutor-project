@@ -27,8 +27,8 @@ function handleStudentCardSelect(event) {
       errorMessage.value = '请选择图片文件作为学生证'
       return
     }
-    if (file.size > 5 * 1024 * 1024) { // 5MB限制
-      errorMessage.value = '文件大小不能超过5MB'
+    if (file.size > 1024 * 1024) { // 5MB限制
+      errorMessage.value = '文件大小不能超过1MB'
       return
     }
     tutor_verification_information.student_card = file
@@ -42,8 +42,8 @@ function handleTeacherCertificateSelect(event) {
       errorMessage.value = '请选择图片文件作为教师资格证'
       return
     }
-    if (file.size > 5 * 1024 * 1024) { // 5MB限制
-      errorMessage.value = '文件大小不能超过5MB'
+    if (file.size > 1024 * 1024) { // 5MB限制
+      errorMessage.value = '文件大小不能超过1MB'
       return
     }
     tutor_verification_information.teacher_qualification_certificate = file
@@ -129,7 +129,7 @@ async function tutor_verification() {
 
     if (tutor_verification_information.teacher_qualification_certificate) {
       formData.append('teacher_qualification_certificate',
-        tutor_verification_information.teacher_qualification_certificate)
+          tutor_verification_information.teacher_qualification_certificate)
     }
 
     console.log('Sending FormData with fields:', {
@@ -317,46 +317,15 @@ function getCookie(name) {
           <div class="form-control">
             <fieldset class="fieldset">
               <legend class="fieldset-legend">学生证照片 <span class="text-red-500">*</span></legend>
-              <div class="space-y-2">
-                <label class="btn btn-outline w-full cursor-pointer">
-                  <svg class="h-[1em] opacity-50 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                       fill="none"
-                       stroke="currentColor" stroke-width="2">
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
-                    <line x1="16" y1="5" x2="22" y2="5"></line>
-                    <line x1="19" y1="2" x2="19" y2="8"></line>
-                    <circle cx="9" cy="9" r="2"></circle>
-                    <path d="M21 15l-5-5L5 21"></path>
-                  </svg>
-                  选择学生证照片
-                  <input
-                      id="student_card_input"
-                      type="file"
-                      accept="image/*"
-                      class="hidden"
-                      @change="handleStudentCardSelect"
-                      :disabled="isLoading"
-                  />
-                </label>
-
-                <!-- 已选择的文件预览 -->
-                <div v-if="tutor_verification_information.student_card"
-                     class="alert alert-info p-3 flex items-center justify-between">
-                  <div class="flex items-center">
-                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <span class="truncate">{{ tutor_verification_information.student_card.name }}</span>
-                  </div>
-                  <button type="button" @click="removeStudentCard" class="btn btn-xs btn-ghost">
-                    移除
-                  </button>
-                </div>
-
-                <p class="text-xs text-gray-500">请上传清晰的学生证照片（不超过5MB）</p>
-              </div>
+              <input
+                  id="student_card_input"
+                  type="file"
+                  accept="image/*"
+                  class="file-input w-full"
+                  @change="handleStudentCardSelect"
+                  :disabled="isLoading"
+              />
+              <label class="label">请上传清晰的学生证照片（不超过1MB）</label>
             </fieldset>
           </div>
 
@@ -364,48 +333,15 @@ function getCookie(name) {
           <div class="form-control">
             <fieldset class="fieldset">
               <legend class="fieldset-legend">教师资格证照片（可选）</legend>
-              <div class="space-y-2">
-                <label class="btn btn-outline w-full cursor-pointer">
-                  <svg class="h-[1em] opacity-50 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                       fill="none"
-                       stroke="currentColor" stroke-width="2">
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
-                    <line x1="16" y1="5" x2="22" y2="5"></line>
-                    <line x1="19" y1="2" x2="19" y2="8"></line>
-                    <circle cx="9" cy="9" r="2"></circle>
-                    <path d="M21 15l-5-5L5 21"></path>
-                  </svg>
-                  选择教师资格证照片
-                  <input
-                      id="teacher_certificate_input"
-                      type="file"
-                      accept="image/*"
-                      class="hidden"
-                      @change="handleTeacherCertificateSelect"
-                      :disabled="isLoading"
-                  />
-                </label>
-
-                <!-- 已选择的文件预览 -->
-                <div v-if="tutor_verification_information.teacher_qualification_certificate"
-                     class="alert alert-info p-3 flex items-center justify-between">
-                  <div class="flex items-center">
-                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <span class="truncate">{{
-                        tutor_verification_information.teacher_qualification_certificate.name
-                      }}</span>
-                  </div>
-                  <button type="button" @click="removeTeacherCertificate" class="btn btn-xs btn-ghost">
-                    移除
-                  </button>
-                </div>
-
-                <p class="text-xs text-gray-500">如有教师资格证请上传（不超过5MB）</p>
-              </div>
+              <input
+                  id="student_card_input"
+                  type="file"
+                  accept="image/*"
+                  class="file-input w-full"
+                  @change="handleTeacherCertificateSelect"
+                  :disabled="isLoading"
+              />
+              <label class="label">如有教师资格证请上传（不超过1MB）</label>
             </fieldset>
           </div>
 
