@@ -4,5 +4,5 @@ from order.api import router as order_router
 
 api = NinjaAPI()
 
-api.add_router("/user/", user_router)
-api.add_router("/order/", order_router)
+api.add_router("/user/", user_router, tags=["user"])
+api.add_router("/order/", order_router, tags=["order"])

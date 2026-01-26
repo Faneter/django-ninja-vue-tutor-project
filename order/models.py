@@ -66,11 +66,12 @@ class Request(models.Model):
 
     lesson_date = models.CharField("辅导日期", max_length=200, default="")
     lesson_time = models.CharField("辅导时间", max_length=200, default="")
+    lesson_days = models.IntegerField("辅导天数", default=0)
 
     payment_type = models.CharField("支付方式", max_length=1, choices=PaymentType, default=PaymentType.BY_COUNSELING)
     salary = models.DecimalField("薪资", max_digits=10, decimal_places=2, default=0)
 
-    create_time = models.DateTimeField("创建时间", auto_now_add=True, default=timezone.now)
+    create_time = models.DateTimeField("创建时间", default=timezone.now)
 
 
 class Order(models.Model):
@@ -79,7 +80,7 @@ class Order(models.Model):
 
     mark = models.IntegerField("评价", default=3)
 
-    create_time = models.DateTimeField("创建时间", auto_now_add=True, default=timezone.now)
+    create_time = models.DateTimeField("创建时间", default=timezone.now)
 
     @property
     def parent(self):
