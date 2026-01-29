@@ -16,7 +16,7 @@ function logout() {
 
 <template>
   <LoginModal id="login_modal"/>
-  <RegisterModal/>
+  <RegisterModal id="register_modal"/>
   <VerificationModal/>
   <div class="navbar bg-base-100 mb-40 shadow-sm">
     <div class="navbar-start">

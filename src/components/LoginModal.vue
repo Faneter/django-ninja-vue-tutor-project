@@ -46,7 +46,7 @@ function login() {
 </script>
 
 <template>
-  <Modal :id="$attrs.id" :successMessage="successMessage" :errorMessage="errorMessage"
+  <Modal :id="$attrs.id" title="用户登录" :successMessage="successMessage" :errorMessage="errorMessage"
          :isLoading="isLoading">
     <!-- 手机号输入 -->
     <div class="form-control">
@@ -129,29 +129,4 @@ function login() {
 </template>
 
 <style scoped>
-/* 添加淡入动画 */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
-}
-
-/* 确保输入框在加载时样式一致 */
-.input:disabled {
-  @apply cursor-not-allowed opacity-50;
-}
-
-/* 模态框居中优化 */
-.modal-middle .modal-box {
-  margin: auto;
-}
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['successMessage', 'errorMessage', 'isLoading']);
+defineProps(['title', 'successMessage', 'errorMessage', 'isLoading']);
 </script>
 
 <template>
@@ -11,7 +11,7 @@ defineProps(['successMessage', 'errorMessage', 'isLoading']);
       </form>
 
       <!-- 标题 -->
-      <h3 class="text-2xl font-bold text-center mb-8">用户登录</h3>
+      <h3 class="text-2xl font-bold text-center mb-8">{{ title }}</h3>
 
       <!-- 成功消息 -->
       <div v-if="successMessage"
