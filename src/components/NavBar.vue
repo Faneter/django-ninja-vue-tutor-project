@@ -1,6 +1,6 @@
 <script setup>
-import LoginModal from "@/components/LoginModal.vue";
-import RegisterModal from "@/components/RegisterModal.vue";
+import LoginModal from "@/components/user/LoginModal.vue";
+import RegisterModal from "@/components/user/RegisterModal.vue";
 import request from "@/utils/request.js";
 import VerificationModal from "@/components/user/VerificationModal.vue";
 import NavBarVerificationButton from "@/components/user/NavBarVerificationButton.vue";

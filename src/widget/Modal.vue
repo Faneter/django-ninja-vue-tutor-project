@@ -33,10 +33,7 @@ defineProps(['title', 'successMessage', 'errorMessage', 'isLoading']);
         <span>{{ errorMessage }}</span>
       </div>
 
-      <!-- 表单 -->
-      <div class="space-y-6">
-        <slot></slot>
-      </div>
+      <slot></slot>
     </div>
 
     <!-- 模态框背景 -->
