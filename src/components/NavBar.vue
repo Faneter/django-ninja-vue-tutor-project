@@ -1,11 +1,12 @@
 <script setup>
+import request from "@/utils/request.js";
+
 import LoginModal from "@/components/user/LoginModal.vue";
 import RegisterModal from "@/components/user/RegisterModal.vue";
-import request from "@/utils/request.js";
 import VerificationModal from "@/components/user/VerificationModal.vue";
 import NavBarVerificationButton from "@/components/user/NavBarVerificationButton.vue";
 
-const props = defineProps(['isLoggedIn'])
+defineProps(['isLoggedIn'])
 
 function logout() {
   request.post(`/user/logout`, {}).finally(() => {
@@ -17,7 +18,7 @@ function logout() {
 <template>
   <LoginModal id="login_modal"/>
   <RegisterModal id="register_modal"/>
-  <VerificationModal/>
+  <VerificationModal id="verification_modal"/>
   <div class="navbar bg-base-100 mb-40 shadow-sm">
     <div class="navbar-start">
       <button class="btn btn-ghost text-xl">daisyUI</button>

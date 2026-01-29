@@ -3,6 +3,8 @@ import request from "@/utils/request.js";
 import {reactive, ref} from "vue";
 import Modal from "@/widget/Modal.vue";
 
+const props = defineProps(['id'])
+
 const register_information = reactive({
   username: '',
   phone: '',
@@ -56,7 +58,7 @@ function register() {
       successMessage.value = "注册成功！"
       setTimeout(() => {
         // 注册成功后可以自动关闭模态框
-        document.getElementById('register_modal')?.close();
+        document.getElementById(`${props.id}`)?.close();
         // 可选：自动打开登录模态框
         document.getElementById('login_modal')?.showModal();
       }, 1500);
