@@ -15,7 +15,7 @@ function logout() {
 </script>
 
 <template>
-  <LoginModal/>
+  <LoginModal id="login_modal"/>
   <RegisterModal/>
   <VerificationModal/>
   <div class="navbar bg-base-100 mb-40 shadow-sm">
