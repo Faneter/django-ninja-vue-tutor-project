@@ -1,7 +1,7 @@
 <script setup>
 import request from "@/utils/request";
 import {reactive, ref} from "vue";
-import Modal from "@/components/Modal.vue";
+import Modal from "@/widget/Modal.vue";
 
 const register_information = reactive({
   username: '',
