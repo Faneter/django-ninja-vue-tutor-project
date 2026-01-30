@@ -19,7 +19,7 @@ function logout() {
   <LoginModal id="login_modal"/>
   <RegisterModal id="register_modal"/>
   <VerificationModal id="verification_modal"/>
-  <div class="navbar bg-base-100 mb-40 shadow-sm">
+  <div class="navbar bg-base-100 mb-8 shadow-sm">
     <div class="navbar-start">
       <button class="btn btn-ghost text-xl">daisyUI</button>
     </div>
