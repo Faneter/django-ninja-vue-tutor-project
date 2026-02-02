@@ -65,7 +65,7 @@ class Request(models.Model):
     tutor_gender = models.CharField("家教性别", max_length=1, choices=Gender, default=Gender.MALE)
 
     lesson_date = models.CharField("辅导日期", max_length=200, default="")
-    lesson_time = models.CharField("辅导时间", max_length=200, default="")
+    lesson_time = models.CharField("单次辅导时间", max_length=200, default="")
     lesson_days = models.IntegerField("辅导天数", default=0)
 
     payment_type = models.CharField("支付方式", max_length=1, choices=PaymentType, default=PaymentType.BY_COUNSELING)
