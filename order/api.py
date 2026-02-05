@@ -76,3 +76,8 @@ def get_request(request, id: int):
 @router.get("/list", response=List[RequestSchema])
 def get_list(request):
     return Request.objects.all()
+
+
+@router.get("/list/id", response=List[int])
+def get_id_list(request):
+    return Request.objects.values_list("id", flat=True)

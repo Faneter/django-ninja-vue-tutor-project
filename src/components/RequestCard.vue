@@ -3,7 +3,7 @@ import request from "@/utils/request.js";
 import {computed, reactive} from "vue";
 import {gradeMap, paymentMap, subjectMap} from "@/utils/dictionary.js";
 
-defineProps(['request_id'])
+const props = defineProps(['request_id'])
 
 const request_profile = reactive({
   student_grade: '',
@@ -32,12 +32,12 @@ function get_request(id) {
   })
 }
 
-get_request(1)
+get_request(props.request_id)
 
 </script>
 
 <template>
-  <div class="card bg-base-100 w-64 shadow-sm">
+  <div class="card sm:w-1/2 lg:w-1/4 w-full duration-500">
     <div class="card-body">
       <h2 class="card-title">{{ request_profile.student_grade + request_profile.subject }}</h2>
       <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
