@@ -4,16 +4,25 @@ import request from "@/utils/request.js";
 
 import RequestModal from "@/components/order/RequestModal.vue";
 import RequestCard from "@/components/order/RequestCard.vue";
+import Paginator from "@/widget/Paginator.vue";
 
 const requests = ref([])
 
-async function get_request_ids() {
-  await request.get('/order/list/id').then(response => {
+const paginator = ref(null)
+
+async function get_request_ids(page = 1) {
+  await request.get(`/order/list/id?page=${page}`).then(response => {
     requests.value = response;
   })
 }
 
-get_request_ids();
+const page_handler = () => {
+  if (paginator.value) {
+    get_request_ids(paginator.value.page);
+  }
+}
+
+get_request_ids(2);
 </script>
 
 <template>
@@ -25,6 +34,7 @@ get_request_ids();
         <button class="btn" onclick="request_modal.showModal()">测试</button>
         <div class="flex flex-wrap">
           <RequestCard v-for="request in requests" :request_id="request"></RequestCard>
+          <Paginator ref="paginator" :handler="page_handler"></Paginator>
         </div>
       </div>
 
