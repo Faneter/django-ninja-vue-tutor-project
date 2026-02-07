@@ -84,3 +84,9 @@ def get_list(request, page: int = 1, per_page: int = 8):
 def get_id_list(request, page: int = 1, per_page: int = 8):
     pages = Paginator(Request.objects.values_list("id", flat=True), per_page)
     return pages.get_page(page)
+
+
+@router.get('/list/page', response=int)
+def get_list_page(request, page: int = 1, per_page: int = 8):
+    pages = Paginator(Request.objects.all(), per_page)
+    return pages.num_pages
