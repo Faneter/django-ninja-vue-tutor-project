@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List
 
+from django.core.paginator import Paginator
 from ninja import Router, Schema
 
 from order.models import Request
@@ -74,10 +75,12 @@ def get_request(request, id: int):
 
 
 @router.get("/list", response=List[RequestSchema])
-def get_list(request):
-    return Request.objects.all()
+def get_list(request, page: int = 1, per_page: int = 8):
+    pages = Paginator(Request.objects.all(), per_page)
+    return pages.get_page(page)
 
 
 @router.get("/list/id", response=List[int])
-def get_id_list(request):
-    return Request.objects.values_list("id", flat=True)
+def get_id_list(request, page: int = 1, per_page: int = 8):
+    pages = Paginator(Request.objects.values_list("id", flat=True), per_page)
+    return pages.get_page(page)
